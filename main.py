@@ -1,6 +1,6 @@
 from skimage import io, img_as_ubyte, morphology, img_as_bool, img_as_float, exposure, color
 from skimage.util.shape import view_as_windows
-from skimage.util import crop, pad
+from skimage.util import crop
 from skimage.transform import resize, rescale
 from PIL import Image
 import imagej
@@ -104,7 +104,8 @@ def demo(args):
     model.to(device)
     
     print('loading ImageJ, please wait')
-    ij = imagej.init('fiji/Fiji.app/')
+    # ij = imagej.init('fiji/Fiji.app')
+    ij = imagej.init('sc.fiji:fiji:2.1.1')
     
     # use for SHG
     TASK = args.input_folder
@@ -138,7 +139,7 @@ def demo(args):
         canvas_1 = int(window_shape[1] * shape_1_factor)
         pad_0 = canvas_0 - img.shape[0]
         pad_1 = canvas_1 - img.shape[1]
-        canvas = pad(img, ((0, pad_0), (0, pad_1), (0, 0)), mode='reflect')
+        canvas = np.pad(img, ((0, pad_0), (0, pad_1), (0, 0)), mode='reflect')
         windows = view_as_windows(canvas, window_shape, step_size)
         with open(OUTPUT_PATCH_DIR+'TileConfiguration.txt', 'w') as text_file:
             print('dim = {}'.format(2), file=text_file)
