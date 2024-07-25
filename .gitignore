@@ -6,3 +6,5 @@ output_test_*/
 weights/
 fiji/
 *.csv
+data/
+__pycache__
