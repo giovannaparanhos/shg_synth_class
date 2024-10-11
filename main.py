@@ -27,6 +27,7 @@ def convert_to_jpeg(img_name):
     yourpath = os.getcwd() + '/output_patch_temp/'
     outpath = os.getcwd() + '/output_patch_jpg/' + img_name
     os.makedirs(f'output_patch_jpg/{img_name}/')
+    print("Generating jpeg for %s" % img_name)
 
     for root, dirs, files in os.walk(yourpath, topdown=False):
         for name in files:
@@ -39,7 +40,6 @@ def convert_to_jpeg(img_name):
                     outfile = os.path.splitext(os.path.join(outpath, name))[0] + ".jpg"
                     try:
                         im = Image.open(os.path.join(root, name))
-                        print("Generating jpeg for %s" % name)
                         im.thumbnail(im.size)
                         im.save(outfile, "JPEG", quality=100)
                     except(Exception, e):
@@ -90,7 +90,7 @@ def main():
     parser.add_argument('--load-multiple-gpu-weights', type=int, default=1, help='1: multiple gpu weights, 0: single gpu weghts')
     parser.add_argument('--input-folder', type=str, default='default', help='input_test + _FOLDERNAME')
     parser.add_argument('--intensity', type=tuple, default=(20, 180), help='output intensity rescale')
-    parser.add_argument('--pilot', type=int, default=0, help='1: only process the first image, 0: process all images')
+    parser.add_argument('--pilot', type=int, default=1, help='1: only process the first image, 0: process all images')
     
     args = parser.parse_args()
     
